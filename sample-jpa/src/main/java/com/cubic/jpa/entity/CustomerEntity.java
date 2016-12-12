@@ -1,13 +1,21 @@
 package com.cubic.jpa.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,6 +36,7 @@ import com.cubic.jpa.test.QueryConstants;
 
 })
 
+@EntityListeners({ CustomerLogListerner.class, CustomerAuditListerner.class })
 public class CustomerEntity {
 
 	@Id
@@ -44,6 +53,12 @@ public class CustomerEntity {
 
 	@Column(name = "SSN")
 	private String ssn;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cust")
+	private CustomerDetailEntity customerInfo;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+	private List<AddressEntity> addressList = null;
 
 	public Long getPk() {
 		return pk;
@@ -75,6 +90,27 @@ public class CustomerEntity {
 
 	public void setSsn(String ssn) {
 		this.ssn = ssn;
+	}
+
+	public CustomerDetailEntity getCustomerInfo() {
+		return customerInfo;
+	}
+
+	public void setCustomerInfo(CustomerDetailEntity customerInfo) {
+		this.customerInfo = customerInfo;
+	}
+
+	public List<AddressEntity> getAddressList() {
+		if (addressList == null) {
+			addressList = new ArrayList<AddressEntity>();
+		}
+		return addressList;
+	}
+
+	public void setAddressList(List<AddressEntity> addressList) {
+
+		this.addressList = addressList;
+
 	}
 
 	@Override

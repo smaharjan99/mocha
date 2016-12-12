@@ -1,0 +1,195 @@
+            <hr>
+            <h4> Patient Registration </h4>
+            <form name="patientForm" method="post">
+                    <table class="table-hover">  
+                    <div class=" row ">
+                        <div class="col-md-2"> First Name
+                        </div>
+                        <div class="col-md-2">
+                        <input name= "fname" ng-model='fname' placeholder="First Name " required>
+                        </div>
+                        <div class="col-md-2">
+                        <span style="color:red" ng-show="patientForm.fname.$touched && patientForm.fname.$invalid">firstname required</span>
+                        </div>    
+                    </div>
+
+                        <div class=" row ">
+                        <div class="col-md-2"> Middle Name
+                        </div>
+                        <div class="col-md-2">
+                        <input name= "Mname" ng-model='Mname'  placeholder="Middle Name" required>    
+                        </div>
+                        <div class="col-md-2">
+                        <span style="color:red" ng-show="patientForm.Mname.$touched && patientForm.Mname.$invalid">
+                            Middle name required</span>  
+                        </div>
+                    </div>
+
+                    <div class=" row ">
+                        <div class="col-md-2"> Last Name
+                        </div>
+                        <div class="col-md-2">
+                        <input name= "lname" ng-model='lname'  placeholder="Last Name" required>  </div>
+                        <div class="col-md-2">
+                        <span style="color:red" ng-show="patientForm.lname.$touched && patientForm.lname.$invalid">
+                            lastname required</span>  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class = "col-md-2"> Gender </div>
+                        <div class = "col-sm-3">
+                        <input type = "radio" name = "gender" value = "male"> Male
+                        <input type = "radio" name = "gender" value = "female"> Female
+                        <input type = "radio" name = "gender" value = "others"> Others
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        <div class = "col-md-2"> Date of birth </div>
+
+                        <div class = "col-md-4">
+                        <select name = "month">
+                            <option>month</option>    
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <select name = "day">
+                        <option>day</option>    
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select> 
+                            <input name='year' ng-model='year' placeholder="year" style="width:50px;" required>     
+
+                        </div>
+                        <div class="col-md-2">
+                        <span style="color:red" ng-show="patientForm.year.$touched && patientForm.year.$invalid">
+                            D.O.B required</span>  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class = "col-md-2">SSN</div>
+                        <div class="col-md-2">
+                            <input name='ssn' ng-model='ssn' placeholder="XXX-XX-234" required> 
+                        </div>
+                        <div class="col-md-2">
+                        <span style="color:red" ng-show="patientForm.ssn.$touched && patientForm.ssn.$invalid">
+                            socialsecurity required</span>  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class = "col-md-2">CellPhone</div>
+                        <div class="col-md-2">
+                            <input type="tel" > 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "col-md-2">HomePhone</div>
+                        <div class="col-md-2">
+                            <input type="tel" > 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "col-md-2">Email Address</div>
+                        <div class="col-md-2">
+                            <input type="email" > 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "col-md-2"> Marital status </div>
+                        <div class = "col-sm-3">
+                        <input type = "radio" name = "marriage" value = "male"> Married
+                        <input type = "radio" name = "marriage" value = "female"> Single
+                        </div>
+                    </div>
+
+                    <br>
+                    <h4>Emergency Contact</h4>
+                    <br>
+
+                    <div class=" row ">
+                        <div class="col-md-2"> Contact Name
+                        </div>
+                        <div class="col-md-2">
+                        <input type="text" placeholder="Full Name ">
+                        </div>
+                    </div>
+                    <div class=" row ">
+                        <div class="col-md-2"> Contact Number
+                        </div>
+                        <div class="col-md-2">
+                        <input type="tel" placeholder="Contact No ">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "col-md-2"> Living will </div>
+                        <div class = "col-sm-3">
+                        <input type = "radio" name = "will" value = "true"> yes
+                        <input type = "radio" name = "will" value = "false"> no
+                        </div>
+                    </div>
+                    <div class=" row ">
+                        <div class="col-md-2"> Medical power of attorney
+                        </div>
+                        <div class="col-md-2">
+                        <input type="tel" placeholder=" ">
+                        </div>
+                    </div>
+                    <div class=" row ">
+                        <div class="col-md-2"> Primary Physician
+                        </div>
+                        <div class="col-md-2">
+                        <input type="tel" placeholder=" ">
+                        </div>
+                    </div>
+                    </table>
+                </form>
+
+                <div>
+                <button type="button" class="btn btn-default">Submit</button> 
+                </div>
+
+
+
+

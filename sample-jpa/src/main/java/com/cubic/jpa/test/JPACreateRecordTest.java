@@ -21,10 +21,10 @@ public class JPACreateRecordTest {
 			et.begin();
 			System.out.println("connected");
 			CustomerEntity entity = new CustomerEntity();
-			entity.setFirstName("Jim");
-			entity.setLastName("Morrison");
-			entity.setSsn("093-34-1247");
-			System.out.println("Before persist = " + entity);
+			entity.setFirstName("Benny");
+			entity.setLastName("Nicholson");
+			entity.setSsn("233-32-1346");
+			// System.out.println("Before persist = " + entity);
 			em.persist(entity);
 			System.out.println("After persist = " + entity);
 

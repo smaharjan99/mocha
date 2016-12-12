@@ -5,9 +5,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import com.cubic.jpa.entity.CustomerEntity;
+import com.cubic.jpa.entity.CourseEntity;
+import com.cubic.jpa.entity.StudentEntity;
 
-public class JPAUpdateRecordTest {
+public class JPAManyToMany {
 
 	public static void main(String[] args) {
 
@@ -20,17 +21,32 @@ public class JPAUpdateRecordTest {
 			et = em.getTransaction();
 			et.begin();
 			System.out.println("connected");
-			CustomerEntity entity = em.find(CustomerEntity.class, new Long(1005));
-			System.out.println("Before persist = " + entity);
-			entity.setLastName("Auster");
-			entity.setFirstName("Paul");
-			em.persist(entity);
-			System.out.println("After persist = " + entity);
+
+			StudentEntity student1 = new StudentEntity();
+			student1.setStdName("Jim");
+			StudentEntity student2 = new StudentEntity();
+			student2.setStdName("Dwight");
+			CourseEntity course1 = new CourseEntity();
+			course1.setCorName("Sales");
+			CourseEntity course2 = new CourseEntity();
+			course2.setCorName("Marketing");
+
+			student1.getCourses().add(course1);
+			student1.getCourses().add(course2);
+			student2.getCourses().add(course2);
+
+			course1.getStudents().add(student1);
+			course2.getStudents().add(student1);
+			course2.getStudents().add(student2);
+
+			em.persist(student1);
 
 			et.commit();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			et.setRollbackOnly();
+
 		} finally {
 			if (em != null) {
 				em.close();
@@ -38,7 +54,6 @@ public class JPAUpdateRecordTest {
 			if (emf != null) {
 				emf.close();
 			}
-
 		}
 
 	}
