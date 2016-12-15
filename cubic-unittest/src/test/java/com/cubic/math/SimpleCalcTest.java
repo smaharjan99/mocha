@@ -7,6 +7,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.cubic.Accounting;
+import com.cubic.Billing;
 
 public class SimpleCalcTest {
 
@@ -31,9 +35,12 @@ public class SimpleCalcTest {
 
 	}
 
+	SimpleCalc calc = new SimpleCalc();
+
+	@Category({ Accounting.class })
 	@Test
 	public void testAdd() {
-		SimpleCalc calc = new SimpleCalc();
+
 		int result = calc.add(10, 5);
 		assertEquals(15, result);
 		// fail("Not yet implemented");
@@ -41,23 +48,23 @@ public class SimpleCalcTest {
 
 	@Test
 	public void testAddNegative() {
-		SimpleCalc calc = new SimpleCalc();
+
 		int result = calc.add(-10, -5);
 		assertEquals(-15, result);
 		// fail("Not yet implemented");
 	}
 
+	@Category({ Billing.class })
 	@Test
 	public void testSub() {
-		SimpleCalc calc = new SimpleCalc();
+
 		int result = calc.sub(10, 5);
 		assertEquals(5, result);
 		// fail("Not yet implemented");
 	}
 
-	@Test
+	@Test(expected = ArithmeticException.class)
 	public void testDiv() {
-		SimpleCalc calc = new SimpleCalc();
 		int result = calc.div(10, 5);
 		assertEquals(2, result);
 		// fail("Not yet implemented");
@@ -65,10 +72,27 @@ public class SimpleCalcTest {
 
 	@Test
 	public void testMult() {
-		SimpleCalc calc = new SimpleCalc();
+
 		int result = calc.mult(10, 5);
 		assertEquals(50, result);
 		// fail("Not yet implemented");
+	}
+
+	@Test(timeout = 1500)
+	public void testMulTimeOut() {
+		timeout(1000);
+		int result = calc.mult(10, 5);
+		assertEquals(50, result);
+		// fail("Not yet implemented");
+	}
+
+	private void timeout(int value) {
+		try {
+			Thread.sleep(value);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
