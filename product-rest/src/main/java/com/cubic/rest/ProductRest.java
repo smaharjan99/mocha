@@ -41,14 +41,25 @@ public class ProductRest {
 		String pk = ps.createProduct(product);
 		product.setId(pk);
 		ResponseBuilder rb = Response.ok().entity(product);
-		return rb.build();
+		return rb.build();/*
+							 * header("Access-Control-Allow-Origin", "*")
+							 * .header("Access-Control-Allow-Methods", "POST")
+							 * .header("Access-Control-Allow-Headers",
+							 * "Content-Type").build();
+							 */
 	}
 
 	@GET
 	@Path("/all")
 	public Response allProduct() {
 		List<Product> allResults = ps.allProduct();
-		return Response.ok().entity(new ProductAllResult(allResults)).build();
+		return Response.ok().entity(new ProductAllResult(allResults))
+				.build();/*
+							 * .header("Access-Control-Allow-Origin", "*")
+							 * .header("Access-Control-Allow-Methods",
+							 * "GET").header("Access-Control-Allow-Headers",
+							 * "Content-Type") .build();
+							 */
 
 	}
 
@@ -56,29 +67,58 @@ public class ProductRest {
 	@Path("/{id}")
 	public Response findProduct(@PathParam("id") final String pk) {
 		Product result = ps.findProduct(pk);
-		return Response.ok().entity(result).build();
+		return Response.ok().entity(result).build();// .header("Access-Control-Allow-Origin",
+													// "*")
+		// .header("Access-Control-Allow-Methods",
+		// "GET").header("Access-Control-Allow-Headers", "Content-Type")
+		// .build();
 	}
 
+	/*
+	 * @GET
+	 * 
+	 * @Path("/{upc}") public Response findProductUPC(@PathParam("upc") final
+	 * String upc) { List<Product> upcResult = ps.findProductUPC(upc); return
+	 * Response.ok().entity(new
+	 * ProductUpcResult(upcResult)).header("Access-Control-Allow-Origin", "*")
+	 * .header("Access-Control-Allow-Methods",
+	 * "GET").header("Access-Control-Allow-Headers", "Content-Type") .build(); }
+	 */
 	@PUT
 	@Path("/modify")
 	public Response modifyProduct(final Product product) {
 		ps.modifyProduct(product);
-		ResponseBuilder rb = Response.ok();
-		return Response.noContent().build();
+		return Response.noContent().build();// .header("Access-Control-Allow-Origin",
+											// "*")
+		// .header("Access-Control-Allow-Methods",
+		// "PUT").header("Access-Control-Allow-Headers", "Content-Type")
+		// .build();
 	}
 
 	@DELETE
 	@Path("/remove/{id}")
 	public Response removeProduct(@PathParam("id") final String pk) {
 		ps.removeProduct(pk);
-		return Response.noContent().build();
+		return Response.noContent()
+				.build();/*
+							 * .header("Access-Control-Allow-Origin", "*")
+							 * .header("Access-Control-Allow-Methods",
+							 * "DELETE").header("Access-Control-Allow-Headers",
+							 * "Content-Type") .build();
+							 */
 	}
 
 	@GET
 	@Path("/search")
 	public Response searchProduct(@QueryParam("pName") final String productName) {
 		List<Product> searchResults = ps.searchProduct(productName);
-		return Response.ok().entity(new ProductSearchResult(searchResults)).build();
+		return Response.ok().entity(new ProductSearchResult(searchResults))
+				.build();/*
+							 * .header("Access-Control-Allow-Origin", "*")
+							 * .header("Access-Control-Allow-Methods",
+							 * "GET").header("Access-Control-Allow-Headers",
+							 * "Content-Type") .build();
+							 */
 	}
 
 }

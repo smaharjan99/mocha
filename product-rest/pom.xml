@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cubic</groupId>
   <artifactId>product-rest</artifactId>
-  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
+   <packaging>war</packaging>
    <name>product-rest Maven Webapp</name>
    <url>http://maven.apache.org</url>
   <properties>
@@ -23,6 +23,13 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>servlet-api</artifactId>
+    <version>2.5</version>
+    <scope>provided</scope>
+</dependency>
     <dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>

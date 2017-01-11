@@ -16,6 +16,8 @@ public interface ProductService {
 
 	Product findProduct(final String id);
 
+	List<Product> findProductUPC(final String upc);
+
 	List<Product> searchProduct(final String productName);
 
 }

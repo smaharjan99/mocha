@@ -16,6 +16,7 @@ import com.cubic.rest.vo.Status;
 @Table(name = "PRODUCTS")
 @NamedQueries({
 		@NamedQuery(name = QueryConstants.PRODUCT_SEARCH, query = "select p from ProductEntity p where UPPER(p.productName) like UPPER(?)"),
+		@NamedQuery(name = QueryConstants.PRODUCT_UPC, query = "select p from ProductEntity p where upc=?"),
 		@NamedQuery(name = QueryConstants.PRODUCT_ALL_RECORDS, query = "select p from ProductEntity p") })
 public class ProductEntity {
 

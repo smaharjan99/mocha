@@ -1,5 +1,8 @@
 package com.cubic.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +21,7 @@ import com.cubic.rest.exception.InvalidDataException;
 import com.cubic.rest.exception.ProductNotFoundException;
 import com.cubic.rest.exception.UPCException;
 import com.cubic.rest.vo.Product;
+import com.cubic.rest.vo.Status;
 
 @Service("jpaPS")
 @Transactional
@@ -29,29 +33,54 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductMapper mapper;
 
+	DateFormat dateType = new SimpleDateFormat("MM/dd/yyyy");
+	Date date = new Date();
+
 	public String createProduct(final Product product) {
-		ProductEntity entity = mapper.mapToProductEntity(new ProductEntity(), product);
-		validateUPC(entity.getUpc());
 		validateInfo(product);
+		validateUPC(product.getUpc());
+		if (product.getProductName().length() < 3) {
+			throw new InvalidDataException("Product Name Minimum length 3 or more");
+		}
+
+		ProductEntity entity = mapper.mapToProductEntity(new ProductEntity(), product);
+
 		entity.setPk(UUID.randomUUID().toString());
+		if (product.getActivate() == Status.ACTIVE) {
+			entity.setActivateDate(dateType.format(date));
+		} else {
+			entity.setInactivateDate(dateType.format(date));
+		}
+		entity.setCreatedDate(dateType.format(date));
 		em.persist(entity);
-		return entity.getPk().toString();
+		return entity.getPk();
 	}
 
 	public void modifyProduct(Product product) {
+		validateInfo(product);
+		validateUPC(product.getUpc());
+		if (product.getProductName().length() < 3) {
+			throw new InvalidDataException("Product Name Minimum length 3 or more");
+		}
 		ProductEntity entity = em.find(ProductEntity.class, new String(product.getId()));
 		if (entity == null) {
 			throw new ProductNotFoundException("Product Not Found in the data");
 		}
-		validateUPC(entity.getUpc());
+
 		entity = mapper.mapToProductEntity(entity, product);
+		if (product.getActivate() == Status.ACTIVE) {
+			entity.setActivateDate(dateType.format(date));
+		} else {
+			entity.setInactivateDate(dateType.format(date));
+		}
+		entity.setUpdatedDate(dateType.format(date));
 		em.persist(entity);
 
 	}
 
 	public void removeProduct(String id) {
-		ProductEntity entity = em.find(ProductEntity.class, new String(id));
 		validateId(id);
+		ProductEntity entity = em.find(ProductEntity.class, new String(id));
 		em.remove(entity);
 
 	}
@@ -65,10 +94,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	public List<Product> allProduct() {
-		// productName = StringUtils.isEmpty(productName) ? "%" :
-		// productName.trim() + "%";
 		TypedQuery<ProductEntity> query = em.createNamedQuery(QueryConstants.PRODUCT_ALL_RECORDS, ProductEntity.class);
-		// query.setParameter(1, productName);
 		List<ProductEntity> allResults = query.getResultList();
 		return mapper.mapToAllProductList(allResults);
 	}
@@ -80,6 +106,20 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return mapper.mapToProduct(entity);
 	}
+
+	public List<Product> findProductUPC(String upc) {
+		TypedQuery<ProductEntity> query = em.createNamedQuery(QueryConstants.PRODUCT_UPC, ProductEntity.class);
+		query.setParameter(1, upc);
+		List<ProductEntity> upcResult = query.getResultList();
+		return mapper.mapToProductList(upcResult);
+	}
+
+	/*
+	 * public Product findProductUPC(String upc) { ProductEntity entity =
+	 * em.find(ProductEntity.class, new String(upc)); if (entity == null) {
+	 * throw new ProductNotFoundException("Product Not Found in the data"); }
+	 * return mapper.mapToProduct(entity); }
+	 */
 
 	private void validateId(final String id) {
 		if (StringUtils.isEmpty(id)) {
@@ -94,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private void validateUPC(final String upc) {
-		String expression = "^(\\d{1}-?\\d{5}-?\\d{5}-?\\d{1}|X-XXXXX-XXXXX-X)$";
+		String expression = "^\\d{1}-\\d{5}-\\d{5}-\\d{1}$";
 		if (StringUtils.isEmpty(upc) || !upc.trim().matches(expression)) {
 			throw new UPCException("Invalid UPC in the product");
 		}

@@ -21,8 +21,8 @@ public class ProductMapper {
 		result.setActivate(entity.getActivate());
 		result.setActivateDate(entity.getActivateDate());
 		result.setInactivateDate(entity.getInactivateDate());
-		result.setUpdateDate(entity.getUpdatedDate());
 		result.setCreateDate(entity.getCreatedDate());
+		result.setUpdateDate(entity.getUpdatedDate());
 		result.setId(entity.getPk());
 
 		return result;
@@ -36,11 +36,6 @@ public class ProductMapper {
 		entity.setPrice(product.getProductPrice());
 		entity.setQuantity(product.getQuantity());
 		entity.setActivate(product.getActivate());
-		entity.setActivateDate(product.getActivateDate());
-		entity.setInactivateDate(product.getInactivateDate());
-		entity.setUpdatedDate(product.getUpdateDate());
-		entity.setCreatedDate(product.getCreateDate());
-
 		return entity;
 	}
 

@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ import com.cubic.rest.vo.Customer;
 @Transactional
 public class CustomerServiceJPAImpl implements CustomerService {
 
+	private static final Logger logger = LoggerFactory.getLogger(CustomerServiceJPAImpl.class);
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -31,10 +35,11 @@ public class CustomerServiceJPAImpl implements CustomerService {
 	@Override
 	public String createCustomer(final Customer customer) {
 		// new CustomerEntity();
-
+		logger.debug("Entering CusteomerServicePAImpl.createCustomer");
 		CustomerEntity entity = mapper.mapToCustomerEntity(new CustomerEntity(), customer);
 		validateInfo(customer);
 		em.persist(entity);
+		logger.debug("Exiting CusteomerServicePAImpl.createCustomer");
 		return entity.getPk().toString();
 	}
 
@@ -42,6 +47,7 @@ public class CustomerServiceJPAImpl implements CustomerService {
 	public void modifyCustomer(Customer customer) {
 		// validateInfo(customer);
 		// validateCustomerExists(customer.getId());
+		logger.debug("Entering CusteomerServicePAImpl.modifyCustomer");
 		CustomerEntity entity = em.find(CustomerEntity.class, new Long(customer.getId()));
 
 		if (entity == null) {
@@ -52,21 +58,23 @@ public class CustomerServiceJPAImpl implements CustomerService {
 		em.persist(entity);
 		// return entity.getPk().toString();
 		// CustomerDB.get().update(customer);
-
+		logger.debug("Exiting CusteomerServicePAImpl.modifyCustomer");
 	}
 
 	@Override
 	public void removeCustomer(final String id) {
+		logger.debug("Entering CusteomerServicePAImpl.removeCustomer");
 		CustomerEntity entity = em.find(CustomerEntity.class, new Long(id));
 		if (StringUtils.isEmpty(id)) {
 			throw new InvalidDataException("Invalid Data. ID is either null or empty");
 		}
 		em.remove(entity);
-
+		logger.debug("Exiting CusteomerServicePAImpl.removeCustomer");
 	}
 
 	@Override
 	public Customer findCustomer(final String id) {
+		logger.debug("Entering CusteomerServicePAImpl.findCustomer");
 		validateId(id);
 
 		CustomerEntity entity = em.find(CustomerEntity.class, new Long(id));
@@ -74,6 +82,7 @@ public class CustomerServiceJPAImpl implements CustomerService {
 		if (entity == null) {
 			throw new CustomerNotFoundException("Customer Not Found in the data");
 		}
+		logger.debug("Exiting CusteomerServicePAImpl.findCustomer");
 		// Customer customer = CustomerDB.get().find(id);
 		// validateCustomerExists(id);
 		return mapper.mapToCustomer(entity);
@@ -88,6 +97,7 @@ public class CustomerServiceJPAImpl implements CustomerService {
 
 	@Override
 	public List<Customer> searchCustomer(String firstName, String lastName) {
+		logger.debug("Entering CusteomerServicePAImpl.searchCustomer");
 		// List<Customer> results = null;
 		firstName = StringUtils.isEmpty(firstName) ? "%" : firstName.trim() + "%";
 		lastName = StringUtils.isEmpty(lastName) ? "%" : lastName.trim() + "%";
@@ -95,6 +105,7 @@ public class CustomerServiceJPAImpl implements CustomerService {
 		query.setParameter(1, firstName);
 		query.setParameter(2, lastName);
 		List<CustomerEntity> searchResults = query.getResultList();
+		logger.debug("Exiting CusteomerServicePAImpl.searchCustomer");
 		return mapper.mapToCustomerList(searchResults);
 		// return CustomerDB.get().search(firstName, lastName);
 	}
